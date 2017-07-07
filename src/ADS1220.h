@@ -59,6 +59,21 @@ class ADS1220 {
     void startSync(void);
     void powerDown(void);
     void rdata(void);
-
+    void writeRegisterMasked(uint8_t value, uint8_t mask, uint8_t address);
+    void setMultiplexer(uint8_t value);
+    void setGain(uint8_t gain);
+    void setPGAbypass(bool value);
+    void setDataRate(uint8_t value);
+    void setOpMode(uint8_t value);
+    void setConversionMode(uint8_t value);
+    void setTemperatureMode(uint8_t value);
+    void setBurnoutCurrentSources(bool value);
+    void setVoltageRef(uint8_t value);
+    void setFIR(uint8_t value);
+    void setPowerSwitch(uint8_t value);
+    void setIDACcurrent(uint8_t value);
+    void setIDAC1routing(uint8_t value);
+    void setIDAC2routing(uint8_t value);
+    void setDRDYmode(uint8_t value);
   };
 #endif
