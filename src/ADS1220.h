@@ -43,15 +43,14 @@
 #define REG_MASK_DRDY_MODE 0x02
 #define REG_MASK_RESERVED 0x01
 
-#define ADS1220_CS_PIN 7
-#define ADS1220_DRDY_PIN 8
-
 class ADS1220 {
   public:
     ADS1220();
+    uint8_t ADS1220_CS_PIN;
+    uint8_t ADS1220_DRDY_PIN;
     void writeRegister(uint8_t address, uint8_t value);
     uint8_t readRegister(uint8_t address);
-    void begin(void);
+    void begin(uint8_t cs_pin, uint8_t drdy_pin);
     bool isDataReady(void);
     long readADC(void);
     void sendCommand(uint8_t command);
