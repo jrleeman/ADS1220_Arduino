@@ -137,22 +137,31 @@ void ADS1220::setGain(uint8_t gain) {
   switch(gain) {
     case 1:
       value = 0x00;
+      break;
     case 2:
       value = 0x01;
+      break;
     case 4:
       value = 0x02;
+      break;
     case 8:
       value = 0x03;
+      break;
     case 16:
       value = 0x04;
+      break;
     case 32:
       value = 0x05;
+      break;
     case 64:
       value = 0x06;
+      break;
     case 128:
       value = 0x07;
+      break;
     default:
       value = 0x00;
+      break;
   }
   writeRegisterMasked(value, REG_MASK_GAIN, CONFIG_REG0_ADDRESS);
 }
