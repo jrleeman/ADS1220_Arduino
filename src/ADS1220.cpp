@@ -26,7 +26,11 @@ uint8_t ADS1220::readRegister(uint8_t address) {
   return data;
 }
 
-void ADS1220::begin() {
+void ADS1220::begin(uint8_t cs_pin, uint8_t drdy_pin) {
+  // Set pins up
+  ADS1220_CS_PIN = cs_pin;
+  ADS1220_DRDY_PIN = drdy_pin;
+
   // Configure the SPI interface (CPOL=0, CPHA=1)
   SPI.begin();
   SPI.setDataMode(SPI_MODE1);
