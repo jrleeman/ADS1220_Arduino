@@ -74,6 +74,67 @@ long ADS1220::readADC() {
   return adcVal;
 }
 
+byte * ADS1220::readADC_Array() {
+  digitalWrite(ADS1220_CS_PIN, LOW); // Take CS low
+  delayMicroseconds(1); // Minimum of td(CSSC)
+  static byte dataarray[3];
+  for (int x = 0; x < 3 ; x++)
+  {
+    dataarray[x] = SPI.transfer(SPI_MASTER_DUMMY);
+  }
+  delayMicroseconds(1); // Minimum of td(CSSC)
+  digitalWrite(ADS1220_CS_PIN, HIGH);
+  return dataarray;
+}
+
+//Single Conversion read modes
+long ADS1220::readADC_Single() {
+  digitalWrite(ADS1220_CS_PIN, LOW); // Take CS low
+  delayMicroseconds(1); // Minimum of td(CSSC)
+
+  SPI.transfer(0x08);
+  while(digitalRead(ADS1220_DRDY_PIN) == HIGH)
+  {
+    //Wait to DRDY goes down
+    //Not a good thing
+    //Code could be stuck here
+    //Need a improve later
+  }
+  
+  long adcVal = SPI.transfer(SPI_MASTER_DUMMY);
+  adcVal = (adcVal << 8) | SPI.transfer(SPI_MASTER_DUMMY);
+  adcVal = (adcVal << 8) | SPI.transfer(SPI_MASTER_DUMMY);
+
+  adcVal = ( adcVal << 8 );
+  adcVal = ( adcVal >> 8 );
+  delayMicroseconds(1); // Minimum of td(CSSC)
+  digitalWrite(ADS1220_CS_PIN, HIGH);
+  return adcVal;
+}
+
+byte * ADS1220::readADC_SingleArray() {
+  digitalWrite(ADS1220_CS_PIN, LOW); // Take CS low
+  delayMicroseconds(1); // Minimum of td(CSSC)
+
+  SPI.transfer(0x08);
+  while(digitalRead(ADS1220_DRDY_PIN) == HIGH)
+  {
+    //Wait to DRDY goes down
+    //Not a good thing
+    //Code could be stuck here
+    //Need a improve later
+  }
+
+  static byte dataarray[3];
+  for (int x = 0; x < 3 ; x++)
+  {
+    dataarray[x] = SPI.transfer(SPI_MASTER_DUMMY);
+  }
+  delayMicroseconds(1); // Minimum of td(CSSC)
+  digitalWrite(ADS1220_CS_PIN, HIGH);
+  return dataarray;
+}
+
 void ADS1220::sendCommand(uint8_t command) {
   // Following Protocentral's code, not sure exactly what's going on here.
   digitalWrite(ADS1220_CS_PIN, LOW);
