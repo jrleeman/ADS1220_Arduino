@@ -13,7 +13,7 @@ void ADS1220::writeRegister(uint8_t address, uint8_t value) {
   delay(5);
   //startSync(); // Send start/sync for continuous conversion mode
   //delayMicroseconds(1); // Delay a minimum of td(SCCS)
-  //digitalWrite(ADS1220_CS_PIN, HIGH);
+  digitalWrite(ADS1220_CS_PIN, HIGH);
 }
 
 uint8_t ADS1220::readRegister(uint8_t address) {
@@ -167,6 +167,7 @@ void ADS1220::setGain(uint8_t gain) {
       value = 0x00;
       break;
   }
+  value = value << 1; // Shift to match with mask
   writeRegisterMasked(value, REG_MASK_GAIN, CONFIG_REG0_ADDRESS);
 }
 
@@ -309,6 +310,7 @@ void ADS1220::setIDAC1routing(uint8_t value) {
   if (value > 0x06) {
     value = 0x00;
   }
+  value = value << 5; // Shift to match with mask
   writeRegisterMasked(value, REG_MASK_IDAC1_ROUTING, CONFIG_REG3_ADDRESS);
 }
 
@@ -326,6 +328,7 @@ void ADS1220::setIDAC2routing(uint8_t value) {
   if (value > 0x06) {
     value = 0x00;
   }
+  value = value << 2; // Shift to match with mask
   writeRegisterMasked(value, REG_MASK_IDAC2_ROUTING, CONFIG_REG3_ADDRESS);
 }
 
@@ -338,6 +341,7 @@ void ADS1220::setDRDYmode(uint8_t value) {
   if (value > 0x01) {
     value = 0x00;
   }
+  value = value << 1; // Shift to match with mask
   writeRegisterMasked(value, REG_MASK_DRDY_MODE, CONFIG_REG3_ADDRESS);
 }
 
