@@ -53,6 +53,9 @@ class ADS1220 {
     void begin(uint8_t cs_pin, uint8_t drdy_pin);
     bool isDataReady(void);
     long readADC(void);
+    byte * readADC_Array(void);
+    long readADC_Single(void);
+    byte * readADC_SingleArray(void);
     void sendCommand(uint8_t command);
     void reset(void);
     void startSync(void);
